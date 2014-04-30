@@ -14,7 +14,14 @@ object Main {
   /**
    * Exercise 1
    */
-  def pascal(c: Int, r: Int): Int = ???
+  def pascal(c: Int, r: Int): Int = {
+      def pascalIter(c: Int, r: Int): Int = {
+          if (c <  0 || r < 0) 0
+          else if (c == 0 || c == r) 1
+          else pascalIter(c-1, r-1) + pascalIter(c, r-1)
+      }
+      pascalIter(c, r)
+  }
 
   /**
    * Exercise 2
