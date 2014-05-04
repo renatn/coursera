@@ -26,7 +26,18 @@ object Main {
   /**
    * Exercise 2
    */
-  def balance(chars: List[Char]): Boolean = ???
+  def balance(chars: List[Char]): Boolean = {
+
+    def balanceIter(chars: List[Char], opened: Int): Boolean = {
+      if (chars.isEmpty) opened == 0
+      else if (opened<0) false
+      else if (chars.head == '(') balanceIter(chars.tail, opened+1)
+      else if (chars.head == ')') balanceIter(chars.tail, opened-1)
+      else balanceIter(chars.tail, opened)
+    }
+
+    balanceIter(chars, 0)
+  }
 
   /**
    * Exercise 3
