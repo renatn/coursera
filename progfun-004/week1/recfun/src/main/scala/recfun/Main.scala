@@ -42,5 +42,19 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = ???
+  def countChange(money: Int, coins: List[Int]): Int = {
+
+      def ways(amount: Int, xs: List[Int]):Int = {
+      
+      if (amount == 0) 1
+      else if (amount < 0 || xs.isEmpty) 0 
+      else {
+        ways(amount, xs.tail) + ways(amount-xs.head, xs)
+      }
+      
+    }
+
+    ways(money, coins)
+
+  }
 }
