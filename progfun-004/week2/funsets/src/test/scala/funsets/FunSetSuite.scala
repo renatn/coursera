@@ -139,4 +139,20 @@ class FunSetSuite extends FunSuite {
     }
   }
 
+  test("forall bla bla") {
+    new TestSets {
+      val s: Set = x => x >= 100 && x <= 200
+      val e: Set = x => false
+      assert(forall(s, x => x >= 50 && x <= 250), "Forall 100..200")
+      assert(forall(e, x => x >= 50 && x <= 250), "Forall Empty")
+    }
+  }
+
+  test("exists in forall terms") {
+    new TestSets {
+      val s: Set = x => x >= 100 && x <= 200
+
+      assert(exists(s, x => x == 150), "Exists 150 in range 100..200")
+    }
+  }
 }
