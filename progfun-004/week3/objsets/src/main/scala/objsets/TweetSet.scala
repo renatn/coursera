@@ -55,7 +55,7 @@ abstract class TweetSet {
    * and be implemented in the subclasses?
    */
   def union(that: TweetSet): TweetSet = {
-    filter(tw => !that.contains(tw)) union that.filter(tw => !this.contains(tw))
+    filterAcc(tw => true, that)
   }
 
   /**
