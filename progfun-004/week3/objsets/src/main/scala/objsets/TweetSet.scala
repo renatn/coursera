@@ -69,6 +69,8 @@ abstract class TweetSet {
    */
   def mostRetweeted: Tweet
 
+  def mostRetweetedAcc(acc: Tweet): Tweet
+
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
    * in descending order. In other words, the head of the resulting list should
@@ -147,6 +149,8 @@ class Empty extends TweetSet {
    * and be implemented in the subclasses?
    */
   override def mostRetweeted: Tweet = throw new NoSuchElementException("Empty")
+
+  override def mostRetweetedAcc(acc: Tweet): Tweet = acc
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -207,11 +211,13 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
    * and be implemented in the subclasses?
    */
   override def mostRetweeted: Tweet = {
-    def iter(xs: TweetSet, candidate: Tweet):Tweet = {
-      filterAcc(tw => tw.retweets > candidate.retweets, xs).mostRetweeted
+	mostRetweetedAcc(elem)
+  }
 
-    }
-    iter(left.union(right), elem)
+  override def mostRetweetedAcc(acc: Tweet): Tweet = {
+	if (elem.retweets > acc.retweets) right.mostRetweetedAcc(elem)
+	else if (elem.retweets < acc.retweets) left.mostRetweetedAcc(acc)
+	else acc
   }
 }
 
