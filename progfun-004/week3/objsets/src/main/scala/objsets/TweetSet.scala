@@ -197,8 +197,8 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
    * and be implemented in the subclasses?
    */
   override def descendingByRetweet: TweetList = {
-
-    new Cons(elem, left.descendingByRetweet)
+    val tw = mostRetweeted
+    new Cons(tw, remove(tw).descendingByRetweet)
   }
 
   /**
