@@ -211,13 +211,16 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
    * and be implemented in the subclasses?
    */
   override def mostRetweeted: Tweet = {
-	mostRetweetedAcc(elem)
+    mostRetweetedAcc(elem)
   }
 
   override def mostRetweetedAcc(acc: Tweet): Tweet = {
-	if (elem.retweets > acc.retweets) right.mostRetweetedAcc(elem)
-	else if (elem.retweets < acc.retweets) left.mostRetweetedAcc(acc)
-	else acc
+    val r = right.mostRetweetedAcc(acc)
+    var l = left.mostRetweetedAcc(acc)
+
+    if (r.retweets > acc.retweets ) r
+    else if (l.retweets > acc.retweets) l
+    else acc
   }
 }
 
