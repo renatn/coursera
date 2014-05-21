@@ -69,7 +69,7 @@ abstract class TweetSet {
    */
   def mostRetweeted: Tweet
 
-  def mostRetweetedAcc(acc: Tweet): Tweet
+  def mostRetweetedAcc(acc: Tweet, xs: TweetSet): Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -150,7 +150,7 @@ class Empty extends TweetSet {
    */
   override def mostRetweeted: Tweet = throw new NoSuchElementException("Empty")
 
-  override def mostRetweetedAcc(acc: Tweet): Tweet = acc
+  override def mostRetweetedAcc(acc: Tweet, xs: TweetSet): Tweet = acc
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -211,16 +211,12 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
    * and be implemented in the subclasses?
    */
   override def mostRetweeted: Tweet = {
-    mostRetweetedAcc(elem)
+    mostRetweetedAcc(elem, this)
   }
 
-  override def mostRetweetedAcc(acc: Tweet): Tweet = {
-    val r = right.mostRetweetedAcc(acc)
-    var l = left.mostRetweetedAcc(acc)
-
-    if (r.retweets > acc.retweets ) r
-    else if (l.retweets > acc.retweets) l
-    else acc
+  override def mostRetweetedAcc(acc: Tweet, xs: TweetSet): Tweet = {    
+    if (elem.retweets > acc.retweets ) xs.mostRetweetedAcc(elem, filter(tw => tw.retweets > elem.retweets))
+    else xs.mostRetweetedAcc(acc, filter(tw => tw.retweets > elem.retweets))
   }
 }
 
