@@ -278,7 +278,26 @@ object Huffman {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+
+    def contains(subtree: CodeTree, ch: Char): Boolean = subtree match {
+      case Leaf(x, _) => x == ch
+      case Fork(_, _, chars, _) => chars.contains(ch)
+    }
+
+    def iter(subtree: CodeTree, text: List[Char], acc: List[Bit]): List[Bit] = text match {
+      case List() => acc
+      case x :: xs => subtree match {
+        case Leaf(ch, _) => iter(tree, xs, acc)
+        case Fork(left, right, _, _) =>
+          if (contains(left, x)) iter(left, x :: xs, acc :+ 0)
+          else if (contains(right, x)) iter(right, x :: xs, acc :+ 1)
+          else throw new Error("Unsupported symbol: "+x)
+      }
+    }
+
+    iter(tree, text, Nil)
+  }
 
 
   // Part 4b: Encoding using code table
