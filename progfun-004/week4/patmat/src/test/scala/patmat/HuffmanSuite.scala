@@ -50,4 +50,11 @@ class HuffmanSuite extends FunSuite {
     val bits = codeBits(table)('b')
     assert(bits == List(1,1,1))
   }
+
+  test("convert") {
+    new TestTrees {
+      val table = convert(t2)
+      assert(table == List( ('a', List(0,0)), ('b', List(0,1)), ('d', List(1)) ), "Result is "+table)
+    }
+  }
 }
