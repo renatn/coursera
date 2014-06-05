@@ -44,4 +44,10 @@ class HuffmanSuite extends FunSuite {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
   }
+
+  test("codeBits") {
+    val table = List(('a', List(1,0,1)),('b', List(1,1,1)))
+    val bits = codeBits(table)('b')
+    assert(bits == List(1,1,1))
+  }
 }
