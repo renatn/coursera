@@ -57,4 +57,12 @@ class HuffmanSuite extends FunSuite {
       assert(table == List( ('a', List(0,0)), ('b', List(0,1)), ('d', List(1)) ), "Result is "+table)
     }
   }
+
+test("quickEncode") {
+  new TestTrees {
+    assert(encode(t2)("ab".toList) === quickEncode(t2)("ab".toList))
+  }
+
+}
+
 }
